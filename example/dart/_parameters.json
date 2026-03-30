@@ -1,0 +1,52 @@
+{
+  "parameters": [
+    {
+      "key": "projectTitle",
+      "label": "Project Name",
+      "description": "The name of the resulting project.",
+      "type": "string",
+      "required": true,
+      "passing": {
+        "style": "flag_space_value",
+        "flag": "--project-name",
+        "separator": ""
+      }
+    },
+    {
+      "key": "template",
+      "label": "Template",
+      "description": "The project template to use.",
+      "type": "options",
+      "required": false,
+      "options": ["console", "package", "server", "web"],
+      "passing": {
+        "style": "flag_equals_value",
+        "flag": "--template",
+        "separator": ""
+      }
+    },
+    {
+      "key": "force",
+      "label": "Force Creation",
+      "description": "Force project generation, even if the target directory already exists.",
+      "type": "boolean",
+      "required": false,
+      "passing": {
+        "style": "flag",
+        "flag": "--force",
+        "separator": " "
+      }
+    },
+    {
+      "key": "projectPath",
+      "label": "Output Directory",
+      "description": "The path where the project will be created.",
+      "type": "string",
+      "required": true,
+      "passing": {
+        "style": "positional",
+        "separator": " "
+      }
+    }
+  ]
+}
