@@ -8,8 +8,7 @@
       "required": true,
       "passing": {
         "style": "flag_space_value",
-        "flag": "--project-name",
-        "separator": ""
+        "flag": "--project-name"
       }
     },
     {
@@ -20,8 +19,7 @@
       "required": false,
       "passing": {
         "style": "flag_space_value",
-        "flag": "--org",
-        "separator": ""
+        "flag": "--org"
       }
     },
     {
@@ -32,8 +30,7 @@
       "required": false,
       "passing": {
         "style": "flag_space_value",
-        "flag": "--description",
-        "separator": ""
+        "flag": "--description"
       }
     },
     {
@@ -44,8 +41,7 @@
       "required": false,
       "passing": {
         "style": "flag",
-        "flag": "-e",
-        "separator": " "
+        "flag": "-e"
       }
     },
     {
@@ -69,8 +65,8 @@
       "type": "string",
       "required": true,
       "passing": {
-        "style": "positional",
-        "separator": " "
+        "style": "flag_space_value",
+        "flag": "--project-path"
       }
     }
   ]

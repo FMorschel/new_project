@@ -38,54 +38,59 @@ class ParameterInputWidget extends StatelessWidget {
   final Object? initialValue;
 
   @override
-  Widget build(BuildContext context) => switch (parameter.type) {
-    .string => StringInputWidget(
-      key: ValueKey(parameter.key),
-      parameter: parameter,
-      onChanged: onChanged,
-      isActive: isActive,
-      disabledExplanation: disabledExplanation,
-      initialValue: initialValue as String?,
-    ),
-    .integer => IntegerInputWidget(
-      key: ValueKey(parameter.key),
-      parameter: parameter,
-      onChanged: onChanged,
-      isActive: isActive,
-      disabledExplanation: disabledExplanation,
-      initialValue: initialValue as String?,
-    ),
-    .num => NumInputWidget(
-      key: ValueKey(parameter.key),
-      parameter: parameter,
-      onChanged: onChanged,
-      isActive: isActive,
-      disabledExplanation: disabledExplanation,
-      initialValue: initialValue as String?,
-    ),
-    .boolean => BooleanInputWidget(
-      key: ValueKey(parameter.key),
-      parameter: parameter,
-      onChanged: onChanged,
-      isActive: isActive,
-      disabledExplanation: disabledExplanation,
-      initialValue: (initialValue as bool?) ?? false,
-    ),
-    .options when parameter.multiSelect => MultiOptionsInputWidget(
-      key: ValueKey(parameter.key),
-      parameter: parameter,
-      onChanged: onChanged,
-      isActive: isActive,
-      disabledExplanation: disabledExplanation,
-      initialValue: (initialValue as List<String>?) ?? const [],
-    ),
-    .options => SingleOptionsInputWidget(
-      key: ValueKey(parameter.key),
-      parameter: parameter,
-      onChanged: onChanged,
-      isActive: isActive,
-      disabledExplanation: disabledExplanation,
-      initialValue: initialValue as String?,
-    ),
-  };
+  Widget build(BuildContext context) {
+    var initialValue = this.initialValue;
+    return switch (parameter.type) {
+      .string => StringInputWidget(
+        key: ValueKey(parameter.key),
+        parameter: parameter,
+        onChanged: onChanged,
+        isActive: isActive,
+        disabledExplanation: disabledExplanation,
+        initialValue: initialValue as String?,
+      ),
+      .integer => IntegerInputWidget(
+        key: ValueKey(parameter.key),
+        parameter: parameter,
+        onChanged: onChanged,
+        isActive: isActive,
+        disabledExplanation: disabledExplanation,
+        initialValue: initialValue as String?,
+      ),
+      .num => NumInputWidget(
+        key: ValueKey(parameter.key),
+        parameter: parameter,
+        onChanged: onChanged,
+        isActive: isActive,
+        disabledExplanation: disabledExplanation,
+        initialValue: initialValue as String?,
+      ),
+      .boolean => BooleanInputWidget(
+        key: ValueKey(parameter.key),
+        parameter: parameter,
+        onChanged: onChanged,
+        isActive: isActive,
+        disabledExplanation: disabledExplanation,
+        initialValue: initialValue is bool
+            ? initialValue
+            : bool.tryParse(initialValue?.toString() ?? '') ?? false,
+      ),
+      .options when parameter.multiSelect => MultiOptionsInputWidget(
+        key: ValueKey(parameter.key),
+        parameter: parameter,
+        onChanged: onChanged,
+        isActive: isActive,
+        disabledExplanation: disabledExplanation,
+        initialValue: (initialValue as List<String>?) ?? const [],
+      ),
+      .options => SingleOptionsInputWidget(
+        key: ValueKey(parameter.key),
+        parameter: parameter,
+        onChanged: onChanged,
+        isActive: isActive,
+        disabledExplanation: disabledExplanation,
+        initialValue: initialValue as String?,
+      ),
+    };
+  }
 }

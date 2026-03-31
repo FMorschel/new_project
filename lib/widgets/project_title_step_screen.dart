@@ -8,12 +8,16 @@ class ProjectTitleStepScreen extends StatefulWidget {
     required this.parameter,
     required this.onNext,
     this.initialValue,
+    this.allRemainingOptional = false,
+    this.onSkipAllOptional,
     super.key,
   });
 
   final TemplateParameter parameter;
   final ValueChanged<String> onNext;
   final String? initialValue;
+  final bool allRemainingOptional;
+  final ValueChanged<String>? onSkipAllOptional;
 
   @override
   State<ProjectTitleStepScreen> createState() => _ProjectTitleStepScreenState();
@@ -51,6 +55,15 @@ class _ProjectTitleStepScreenState extends State<ProjectTitleStepScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            if (widget.allRemainingOptional) ...[
+              OutlinedButton(
+                onPressed: (_value == null || _value!.isEmpty)
+                    ? null
+                    : () => widget.onSkipAllOptional?.call(_value!),
+                child: const Text('Skip Optional'),
+              ),
+              const SizedBox(width: 8),
+            ],
             FilledButton.icon(
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(

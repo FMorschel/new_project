@@ -69,3 +69,6 @@ lib/generated_plugin_registrant.dart
 
 # AI
 .claude/
+
+# FVM Version Cache
+.fvm/

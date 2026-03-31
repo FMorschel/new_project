@@ -17,12 +17,10 @@ void main() {
               executable,
               arguments, {
               workingDirectory,
-              runInShell = false,
             }) async {
               capturedExecutable = executable;
               capturedArgs = arguments;
               capturedDir = workingDirectory;
-              capturedRunInShell = runInShell;
               return ProcessResult(
                 0,
                 0,

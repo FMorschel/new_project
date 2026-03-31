@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../models/template_parameter.dart';
 
 class SingleOptionsInputWidget extends StatefulWidget {
@@ -80,6 +81,18 @@ class _SingleOptionsInputWidgetState extends State<SingleOptionsInputWidget> {
           (option) =>
               ListTile(title: Text(option), onTap: () => _selectOption(option)),
         ),
+        if (!widget.parameter.required && _searchController.text.isEmpty)
+          ListTile(
+            title: const Text('<None>'),
+            onTap: () {
+              setState(() {
+                _selected = null;
+                _isOpen = false;
+                _searchController.clear();
+              });
+              widget.onChanged(null);
+            },
+          ),
       ],
       if (!widget.isActive && widget.disabledExplanation != null)
         Padding(

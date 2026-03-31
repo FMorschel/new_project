@@ -8,8 +8,7 @@
       "required": true,
       "passing": {
         "style": "flag_space_value",
-        "flag": "--project-name",
-        "separator": ""
+        "flag": "--project-name"
       }
     },
     {
@@ -18,11 +17,10 @@
       "description": "The project template to use.",
       "type": "options",
       "required": false,
-      "options": ["console", "package", "server", "web"],
+      "options": ["cli", "console", "package", "server-shelf", "web"],
       "passing": {
         "style": "flag_equals_value",
-        "flag": "--template",
-        "separator": ""
+        "flag": "--template"
       }
     },
     {
@@ -33,8 +31,7 @@
       "required": false,
       "passing": {
         "style": "flag",
-        "flag": "--force",
-        "separator": " "
+        "flag": "--force"
       }
     },
     {
@@ -44,8 +41,8 @@
       "type": "string",
       "required": true,
       "passing": {
-        "style": "positional",
-        "separator": " "
+        "style": "flag_space_value",
+        "flag": "--project-path"
       }
     }
   ]

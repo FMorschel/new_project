@@ -175,6 +175,11 @@ class _AppFlowState extends State<AppFlow> {
     unawaited(_runScript());
   }
 
+  void _onTitleSkipAllOptional(String value) {
+    _answers['projectTitle'] = value;
+    unawaited(_runScript());
+  }
+
   void _onNavigateTo(int index) {
     setState(() {
       _currentStepIndex = index;
@@ -261,6 +266,7 @@ class _AppFlowState extends State<AppFlow> {
               onNextStep: _onNextStep,
               onBackStep: _onBackStep,
               onSkipAllOptional: _onSkipAllOptional,
+              onTitleSkipAllOptional: _onTitleSkipAllOptional,
             ),
           ),
         ],
@@ -276,13 +282,21 @@ class _AppFlowState extends State<AppFlow> {
             right: 16,
             child: Consumer<ValueNotifier<ThemeMode>>(
               builder: (context, notifier, _) {
-                var isDark = notifier.value.isDark(context);
+                var mode = notifier.value;
                 return IconButton(
-                  icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+                  icon: Icon(switch (mode) {
+                    .system => Icons.brightness_auto,
+                    .light => Icons.light_mode,
+                    .dark => Icons.dark_mode,
+                  }),
                   onPressed: () {
-                    notifier.value = isDark ? ThemeMode.light : ThemeMode.dark;
+                    notifier.value = switch (mode) {
+                      .system => .light,
+                      .light => .dark,
+                      .dark => .system,
+                    };
                   },
-                  tooltip: 'Toggle Theme',
+                  tooltip: 'Toggle Theme:\n${mode.name}',
                 );
               },
             ),
@@ -304,6 +318,7 @@ class _CurrentStepBuilder extends StatelessWidget {
     required this.onNextStep,
     required this.onBackStep,
     required this.onSkipAllOptional,
+    required this.onTitleSkipAllOptional,
   });
 
   final TemplateParameter step;
@@ -315,6 +330,7 @@ class _CurrentStepBuilder extends StatelessWidget {
   final void Function(String key, Object? value) onNextStep;
   final VoidCallback onBackStep;
   final VoidCallback onSkipAllOptional;
+  final ValueChanged<String> onTitleSkipAllOptional;
 
   @override
   Widget build(BuildContext context) {
@@ -341,10 +357,17 @@ class _CurrentStepBuilder extends StatelessWidget {
               .join('\n');
 
     if (step.key == 'projectTitle') {
+      var allOptionalAfterTitle = visibleSteps
+          .skip(currentStepIndex + 1)
+          .every((p) => !p.required);
       return ProjectTitleStepScreen(
         parameter: step,
         initialValue: answers[step.key]?.toString(),
+        allRemainingOptional: allOptionalAfterTitle,
         onNext: (val) => onNextStep(step.key, val),
+        onSkipAllOptional: allOptionalAfterTitle
+            ? onTitleSkipAllOptional
+            : null,
       );
     }
 
@@ -363,7 +386,7 @@ class _CurrentStepBuilder extends StatelessWidget {
 }
 
 extension ThemeModeExtension on ThemeMode {
-  bool isDark(BuildContext context) =>
+  bool isDarkCurrently(BuildContext context) =>
       this == ThemeMode.dark ||
       (this == ThemeMode.system &&
           MediaQuery.platformBrightnessOf(context) == Brightness.dark);
